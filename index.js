@@ -42,17 +42,19 @@ const User = mongoose.model("user",userSchema)
 
 //Routes
 
-//get all
+//get all users
 app.get("/api/users", async (req , res)=>{
     const allUsers  = await User.find({})
     return res.status(200).json(allUsers)
 })
 
 
-//get particular user
+//Creating users
 app.post("/api/users", async (req,res)=>{
-    //This will create a user
+    // Request body
     const body = req.body
+
+    // adding a few validations
     if(
         !body || 
         !body.firstName ||
@@ -71,6 +73,7 @@ app.post("/api/users", async (req,res)=>{
         return res.status(400).json({msg:"User with the same email already exists"}) 
         }
         
+        //sending data to the database
         const result =  await User.create({
              firstName:body.firstName,
              lastName:body.lastName,
@@ -84,13 +87,28 @@ app.post("/api/users", async (req,res)=>{
         console.log(error)
         return res.status(500).json({msg:"There is something wrong in server"})
     }
-   
-
-    //201 response status for creating any user
-    
+       
 })
 
 
+// Getting single user, updating and deleting a user.
+app.route("/api/user/:id").get(async(req,res)=>{
+    const user  =await User.findById(req.params.id)
+    if(!user) {
+        return res.status(401).json({msg:"User cannot be found"})
+    }
+
+    return res.status(200).json(user)
+    }
+
+).patch(async(req,res)=>{
+      const user = await User.findByIdAndUpdate(req.params.id,{lastName:"Khan"})  
+
+
+return res.status(200).json({msg:"success"}).json(user)
+
+
+})
 
 
 
