@@ -1,6 +1,5 @@
 const express  = require("express")
 const mongoose = require("mongoose")
-const users = require("./MOCK_DATA.json")
 const app = express()
 const PORT = 8000
 
@@ -33,9 +32,10 @@ const userSchema = new mongoose.Schema({
     },
     gender:{
         type:String
-    }
+    },
 
-})
+},
+{timestamps:true})
 
 //3.Modal
 const User = mongoose.model("user",userSchema)
@@ -43,8 +43,9 @@ const User = mongoose.model("user",userSchema)
 //Routes
 
 //get all
-app.get("/api/users", (req , res)=>{
-    return res.json(users)
+app.get("/api/users", async (req , res)=>{
+    const allUsers  = await User.find({})
+    return res.status(200).json(allUsers)
 })
 
 
