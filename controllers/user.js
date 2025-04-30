@@ -1,13 +1,12 @@
-
 const User = require("../model/user")
 
-
-async function handleGetAllUsers(){
+//get all users
+async function handleGetAllUsers(req, res){
     const allUsers  = await User.find({})
     return res.status(200).json(allUsers)
 }
 
-
+//get any user by Id
 async function handleGetUserById(req,res){
     const user  =await User.findById(req.params.id)
     if(!user) {
@@ -17,14 +16,15 @@ async function handleGetUserById(req,res){
 }
 
 
+//uPDATE USER BY iD
 async function handleUpdateUser(req,res){
-        const user = await User.findByIdAndUpdate(req.params.id,{lastName:"Khan"})  
+    const user = await User.findByIdAndUpdate(req.params.id,{lastName:"Khan"})  
   
-  return res.status(200).json({msg:"success"}).json(user)
-
+    return res.status(200).json({msg:"success", user})
 }
 
 
+//Create User
 const createUser = async (req,res)=>{
     // Request body
     const body = req.body
@@ -70,5 +70,4 @@ module.exports={
     handleGetUserById,
     handleUpdateUser,
     createUser
-    
 }

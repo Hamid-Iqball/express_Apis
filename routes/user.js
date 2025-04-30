@@ -1,18 +1,18 @@
 const express = require("express")
-const router = express.Router()
-
 const {handleGetAllUsers, handleGetUserById, handleUpdateUser, createUser} = require("../controllers/user")
+const router = express.Router()
 
 
 //get all users
-router.get("/", handleGetAllUsers)
 
+router.route("/").get(handleGetAllUsers).post(createUser)
 
-//Creating users
-router.post("/", createUser)
 
 
 // Getting single user, updating and deleting a user.
-router.route(":id").get(handleGetUserById).patch(handleUpdateUser)
+router
+.route("/:id")
+.get(handleGetUserById)
+.patch(handleUpdateUser)
 
 module.exports = router
