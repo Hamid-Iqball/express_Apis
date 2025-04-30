@@ -18,7 +18,7 @@ async function handleGetUserById(req,res){
 
 //uPDATE USER BY iD
 async function handleUpdateUser(req,res){
-    const user = await User.findByIdAndUpdate(req.params.id,{lastName:"Khan"})  
+    const user = await User.findByIdAndUpdate(req.params.id,{lastName:"Khan jan man"})  
   
     return res.status(200).json({msg:"success", user})
 }
